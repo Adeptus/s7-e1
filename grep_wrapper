@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require './lib/Interface.rb'
+
+grep_wrapper = Interface.new
+grep_wrapper.run
