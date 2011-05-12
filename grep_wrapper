@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require './lib/Interface.rb'
+require File.dirname(__FILE__) + '/lib/grep_wrapper.rb'
 
-grep_wrapper = Interface.new
-grep_wrapper.run
+grep_wrapper = GrepWrapper::Wrapper.new
+grep_wrapper.command_attributes = ARGV
+print grep_wrapper.start
