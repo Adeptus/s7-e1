@@ -1,43 +1,29 @@
-require File.dirname(__FILE__) + '/grep_wrapper/grep.rb'
+require './lib/grep.rb'
+require './lib/replace.rb'
 
-module GrepWrapper
-  class Wrapper
+class GrepWrapper
+  attr_reader :regex, :path, :replace, :options
 
-    attr_accessor :command_attributes, :grep
+  def initialize(regex, path, replace, options = nil)
+    @regex   = regex
+    @path    = path
+    @replace = replace
+    @options = options if options
+  end
 
-    def initialize
-      @grep = Grep.new
-    end
+  def execute
+     output  = initializegrep.execute
+     initializereplace(output).execute
+     print output
+  end
 
-    def start
-      return syntax_info if @command_attributes[0] == nil
-      return help_info   if @command_attributes[0] == "--help"
-      
-      organize_command_attributes
+private
 
-      grep.find_match_by_grep
-    end
+  def initializegrep
+    Grep.new(@regex, @path, @options)
+  end
 
-  private
-    
-    def organize_command_attributes
-      if @command_attributes[0].start_with?("-")
-        grep.options = @command_attributes[0]
-        grep.regex   = @command_attributes[1]
-        grep.path    = @command_attributes[2] if @command_attributes[2]
-      else
-        grep.regex   = @command_attributes[0]
-        grep.path    = @command_attributes[1] if @command_attributes[1]
-      end
-    end
-
-    def syntax_info
-    return "syntax: grep_wrapper [attributes]... REGEX [PATH]\n" \
-           "Write 'grep_wrapper --help' to know more\n"
-    end
-
-    def help_info
-      return "help info\n"
-    end
+  def initializereplace(grep_output)
+    Replace.new(grep_output, @regex, @replace)
   end
 end
