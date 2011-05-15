@@ -10,7 +10,7 @@ class GrepWrapperTest < Test::Unit::TestCase
   end 
 
   def test_change_swither_in_few_files
-    @solver = GrepWrapper.new("= on", "./test/data/", "= off")
+    @solver = GrepWrapper.new("= on", "./test/data/", "rX", "= off")
     @solver.execute    
 
     assert_match /off/, File.new("./test/data/a.txt", "r").read

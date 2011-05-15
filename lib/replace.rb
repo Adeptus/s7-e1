@@ -1,9 +1,9 @@
 class Replace
 
-  attr_reader :files_arr, :desired_string, :new_string
+  attr_reader :result_array, :desired_string, :new_string
 
   def initialize(grep_output, search_string, new_string)
-    @files_arr      = parse_grep_output(grep_output)
+    @result_array   = grep_output
     @desired_string = search_string
     @new_string     = new_string
   end
@@ -14,27 +14,14 @@ class Replace
 
 private
 
-  def parse_grep_output(grep_output)
-    grep_output.inject([]) do |new_output, line|
-      new_output << parse_line(line)
-    end
-  end
-
-  def parse_line(line)
-    path, number = line.split(":")
-    text         = line.split(/:[0-9]*:/).last
-
-    return path, number.to_i, text 
-  end
-
   def replace
-    @files_arr.each {|file_arr| replace_line_in_file(file_arr)}
+    @result_array.each {|result| replace_line_in_file(result)}
   end
 
-  def replace_line_in_file(file_arr)
-    File.open(file_arr[0], 'r+') do |file|
+  def replace_line_in_file(result)
+    File.open(result.file_name, 'r+') do |file|
       lines = file.readlines
-      lines[file_arr[1]-1].gsub!(/#{@desired_string}/, "#{@new_string}")
+      lines[result.line_number - 1].gsub!(/#{@desired_string}/, "#{@new_string}")
       file.rewind
       file.write(lines) 
     end

@@ -4,17 +4,17 @@ require './lib/replace.rb'
 class GrepWrapper
   attr_reader :regex, :path, :replace, :options
 
-  def initialize(regex, path, replace, options = nil)
+  def initialize(regex, path, options = nil, replace = nil)
     @regex   = regex
     @path    = path
-    @replace = replace
-    @options = options if options
+    @options = options  if options
+    @replace = replace  if replace
   end
 
   def execute
      output  = initializegrep.execute
-     initializereplace(output).execute
-     print output
+     initializereplace(output).execute if @options.index("X")
+     output
   end
 
 private

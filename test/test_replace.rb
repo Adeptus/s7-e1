@@ -1,5 +1,6 @@
 require 'test/unit'
 require './lib/replace.rb'
+require './lib/result.rb'
 
 class ReplaceTest < Test::Unit::TestCase
 
@@ -9,7 +10,7 @@ class ReplaceTest < Test::Unit::TestCase
   end 
 
   def test_replace_word_in_file
-    @solver = Replace.new("./test/data/a.txt:2:Sample file one",
+    @solver = Replace.new([Result.new("./test/data/a.txt", 2, "Sample file one")],
                           "file",
                           "test")
     @solver.execute
