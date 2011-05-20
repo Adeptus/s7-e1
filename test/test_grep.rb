@@ -1,10 +1,10 @@
-require 'test/unit'
-require './lib/grep.rb'
+require          'test/unit'
+require_relative '../lib/grep.rb'
 
 class GrepTest < Test::Unit::TestCase
 
   def test_find_string_crazy_in_test_data_files
-    @solver = Grep.new("Crazy", "./test/data/", "r")
+    @solver = Grep.new("Crazy", "#{File.dirname(__FILE__)}/data/", "r")
     function_output = @solver.execute
 
     assert_match /Crazy/, function_output[0].text

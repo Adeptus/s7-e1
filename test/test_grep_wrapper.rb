@@ -1,5 +1,5 @@
-require 'test/unit'
-require './lib/grep_wrapper.rb'
+require          'test/unit'
+require_relative '../lib/grep_wrapper.rb'
 
 class GrepWrapperTest < Test::Unit::TestCase
 

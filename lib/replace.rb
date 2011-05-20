@@ -8,9 +8,7 @@ class Replace
     @new_string     = new_string
   end
 
-  def execute
-    replace
-  end
+  alias_method :execute, :replace
 
 private
 

@@ -1,5 +1,0 @@
-aaa Crazy aaa
-Sample file
-Switcher = on
-
-#kokoko

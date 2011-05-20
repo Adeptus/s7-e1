@@ -1,29 +1,28 @@
-require './lib/grep.rb'
-require './lib/replace.rb'
+require_relative 'grep.rb'
+require_relative 'replace.rb'
 
 class GrepWrapper
-  attr_reader :regex, :path, :replace, :options
+  attr_reader :parameters
 
   def initialize(regex, path, options = nil, replace = nil)
-    @regex   = regex
-    @path    = path
-    @options = options  if options
-    @replace = replace  if replace
+    @parameters = {}
+    
+    @parameters[:regex]   = regex
+    @parameters[:path]    = path
+    @parameters[:options] = options  if options
+    @parameters[:replace] = replace  if replace
   end
 
   def execute
-     output  = initializegrep.execute
-     initializereplace(output).execute if @options.index("X")
-     output
-  end
+     grep_output  = Grep.new(@parameters[:regex],
+                             @parameters[:path],
+                             @parameters[:options]).execute
+     if @options.index("X") do
+       Replace.new(grep_output,
+                   @parameters[:regex],
+                   @parameters[:replace]).execute
+      end
 
-private
-
-  def initializegrep
-    Grep.new(@regex, @path, @options)
-  end
-
-  def initializereplace(grep_output)
-    Replace.new(grep_output, @regex, @replace)
+     grep_output
   end
 end

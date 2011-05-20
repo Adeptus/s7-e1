@@ -1,4 +1,4 @@
-require './lib/result.rb'
+require_relative 'result.rb'
 
 class Grep 
   attr_reader :regex, :path, :options 

@@ -1,6 +1,6 @@
 require 'test/unit'
-require './lib/replace.rb'
-require './lib/result.rb'
+require_relative '../lib/replace.rb'
+require_relative '../lib/result.rb'
 
 class ReplaceTest < Test::Unit::TestCase
 
