@@ -17,11 +17,12 @@ class GrepWrapper
      grep_output  = Grep.new(@parameters[:regex],
                              @parameters[:path],
                              @parameters[:options]).execute
-     if @options.index("X") do
+
+     if @parameters[:options].index("X")
        Replace.new(grep_output,
                    @parameters[:regex],
                    @parameters[:replace]).execute
-      end
+     end
 
      grep_output
   end

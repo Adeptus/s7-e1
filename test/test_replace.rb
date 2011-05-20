@@ -10,11 +10,13 @@ class ReplaceTest < Test::Unit::TestCase
   end 
 
   def test_replace_word_in_file
-    @solver = Replace.new([Result.new("./test/data/a.txt", 2, "Sample file one")],
+    @solver = Replace.new([Result.new("#{File.dirname(__FILE__)}/data/a.txt",
+                                      2,
+                                      "Sample file\n")],
                           "file",
                           "test")
     @solver.execute
 
-   assert_match /test/, File.new("./test/data/a.txt", "r").read
+   assert_match /test/, File.new("#{File.dirname(__FILE__)}/data/a.txt", "r").read
   end
 end

@@ -11,7 +11,7 @@ class GrepTest < Test::Unit::TestCase
   end
 
   def test_find_word_sample_in_test_data_files
-    @solver = Grep.new("Sample", "./test/data/", "r")
+    @solver = Grep.new("Sample", "#{File.dirname(__FILE__)}/data/", "r")
     function_output = @solver.execute
 
     assert_match /Sample/, function_output[0].text
@@ -19,7 +19,7 @@ class GrepTest < Test::Unit::TestCase
   end
 
   def test_no_find_eny_word_grep_in_test_data_files
-    @solver = Grep.new("grep", "./test/data/", "r")
+    @solver = Grep.new("grep", "#{File.dirname(__FILE__)}/data/", "r")
     function_output = @solver.execute
 
     assert_equal [], function_output

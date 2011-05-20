@@ -20,7 +20,7 @@ class Grep
 private
 
   def find_match_by_grep 
-    grep_output = IO.popen("grep #{@options} '#{@regex}' #{@path}") 
+    grep_output = IO.popen(["grep", @options, @regex, @path]) 
     return grep_output.inject([]) { |out, match| out <<  match }
   end
 

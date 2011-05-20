@@ -1,3 +1,6 @@
+require "tempfile"
+require "fileutils"
+
 class Replace
 
   attr_reader :result_array, :desired_string, :new_string
@@ -8,21 +11,27 @@ class Replace
     @new_string     = new_string
   end
 
-  alias_method :execute, :replace
-
-private
-
   def replace
     @result_array.each {|result| replace_line_in_file(result)}
   end
 
+  alias_method :execute, :replace
+
+private
+
   def replace_line_in_file(result)
-    File.open(result.file_name, 'r+') do |file|
-      lines = file.readlines
-      lines[result.line_number - 1].gsub!(/#{@desired_string}/, "#{@new_string}")
-      file.rewind
-      file.write(lines) 
+    temp = Tempfile.new("temp")
+
+    File.foreach(result.file_name) do |line|
+      if line == result.text
+        temp << line.gsub!(/#{@desired_string}/, "#{@new_string}")
+      else
+        temp << line  
+      end
     end
+
+    temp.close
+    FileUtils.mv(temp.path, result.file_name)
   end
 end
 
